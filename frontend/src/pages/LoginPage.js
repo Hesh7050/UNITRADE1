@@ -31,7 +31,11 @@ function LoginPage() {
 
   return (
     <div className="login-page">
-      <Navbar />
+      <Navbar 
+        links={[
+          { label: "Home", path: "/" },
+          { label: "Register", path: "/register" },
+        ]}/>
 
       <div className="login-container">
         <h2 className="login-title">Login</h2>

@@ -1,8 +1,9 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-function Navbar() {
+function Navbar({ links = [] }) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const navStyle = {
     background: "linear-gradient(90deg, #3D0066, #5B2C6F)",
@@ -40,6 +41,23 @@ function Navbar() {
     display: "inline-block",
   });
 
+  const buttonStyle = {
+    fontSize: "15px",
+    fontWeight: "600",
+    padding: "10px 18px",
+    borderRadius: "25px",
+    backgroundColor: "transparent",
+    color: "white",
+    border: "1px solid rgba(255,255,255,0.35)",
+    cursor: "pointer",
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
   return (
     <nav style={navStyle}>
       <Link to="/" style={logoStyle}>
@@ -47,73 +65,17 @@ function Navbar() {
       </Link>
 
       <div style={linksContainer}>
-        <Link
-          to="/"
-          style={getLinkStyle("/")}
-          onMouseOver={(e) => {
-            if (location.pathname !== "/") {
-              e.target.style.backgroundColor = "rgba(255,255,255,0.15)";
-            }
-          }}
-          onMouseOut={(e) => {
-            if (location.pathname !== "/") {
-              e.target.style.backgroundColor = "transparent";
-            }
-          }}
-        >
-          Home
-        </Link>
-
-        <Link
-          to="/register"
-          style={getLinkStyle("/register")}
-          onMouseOver={(e) => {
-            if (location.pathname !== "/register") {
-              e.target.style.backgroundColor = "rgba(255,255,255,0.15)";
-            }
-          }}
-          onMouseOut={(e) => {
-            if (location.pathname !== "/register") {
-              e.target.style.backgroundColor = "transparent";
-            }
-          }}
-        >
-          Register
-        </Link>
-
-        <Link
-          to="/login"
-          style={getLinkStyle("/login")}
-          onMouseOver={(e) => {
-            if (location.pathname !== "/login") {
-              e.target.style.backgroundColor = "rgba(255,255,255,0.15)";
-            }
-          }}
-          onMouseOut={(e) => {
-            if (location.pathname !== "/login") {
-              e.target.style.backgroundColor = "transparent";
-            }
-          }}
-        >
-          Login
-        </Link>
-
-        <Link
-          to="/create-product"
-          style={getLinkStyle("/create-product")}
-          onMouseOver={(e) => {
-            if (location.pathname !== "/create-product") {
-              e.target.style.backgroundColor = "rgba(255,255,255,0.15)";
-            }
-          }}
-          onMouseOut={(e) => {
-            if (location.pathname !== "/create-product") {
-              e.target.style.backgroundColor = "transparent";
-            }
-          }}
-        >
-          Add Product
-        </Link>
+        {links.map((link, index) =>
+          link.type === "logout" ? (
+            <button key={index} onClick={handleLogout} style={buttonStyle}>
+              {link.label}
+            </button>
+          ) : (
+            <Link key={index} to={link.path} style={getLinkStyle(link.path)}>
+              {link.label}
+            </Link>
+          )
+        )}
       </div>
     </nav>
   );

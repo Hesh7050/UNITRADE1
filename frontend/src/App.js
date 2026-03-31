@@ -51,6 +51,6 @@ function App() {
       </Routes>
     </Router>
   );
-}//rfhthtjttr
+}
 
 export default App;

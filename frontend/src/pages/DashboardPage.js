@@ -16,7 +16,14 @@ function DashboardPage() {
 
   return (
     <div className="dashboard-page">
-      <Navbar />
+      <Navbar
+        links={[
+          { label: "Dashboard", path: "/dashboard" },
+          { label: "Home", path: "/" },
+          { label: "Profile", path: "/profile" },
+          { label: "Add Product", path: "/create-product" },
+          { label: "Logout", type: "logout" },
+        ]} />
 
       <div className="dashboard-container">
         <h1 className="dashboard-title">Welcome to Student Marketplace</h1>
