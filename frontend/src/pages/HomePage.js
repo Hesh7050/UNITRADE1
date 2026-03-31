@@ -10,15 +10,14 @@ import hero3 from "../assets/hero-section-7.png";
 function HomePage() {
   const [products, setProducts] = useState([]);
   const heroImages = [hero1, hero2, hero3];
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+  const [slideIndex, setSlideIndex] = useState(0);
   useEffect(() => {
     fetchProducts();
   }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) =>
+      setSlideIndex((prevIndex) =>
         prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
       );
     }, 3000);
@@ -65,8 +64,22 @@ function HomePage() {
           </div>
         </div>
 
-        <div className="hero-image">
-            <img src={heroImages[currentImageIndex]} alt="Students" />
+        <div className="hero-slider-wrapper">
+          <div
+            className="hero-slider-track"
+            style={{ transform: `translateX(-${slideIndex * 100}%)` }}
+          >
+            {heroImages.map((image, index) => (
+              <div className="hero-slide" key={index}>
+                <img src={image} alt={`Hero ${index + 1}`} />
+              </div>
+            ))}
+
+            {/* duplicate first image for smoother loop feeling */}
+            <div className="hero-slide">
+              <img src={heroImages[0]} alt="Hero duplicate" />
+            </div>
+          </div>
         </div>
       </section>
 
