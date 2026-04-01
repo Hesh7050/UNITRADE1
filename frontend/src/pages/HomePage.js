@@ -6,6 +6,12 @@ import "./HomePage.css";
 import hero1 from "../assets/hero-section-6.png";
 import hero2 from "../assets/hero-section-4.png";
 import hero3 from "../assets/hero-section-7.png";
+import academicImg from "../assets/Acadamic_uni.png";
+import electronicImg from "../assets/Electronics_uni.png";
+import hostelImg from "../assets/Living_uni.png";
+import personalImg from "../assets/Personal_uni.png";
+
+
 
 function HomePage() {
   const [products, setProducts] = useState([]);
@@ -49,9 +55,11 @@ function HomePage() {
         <div className="hero-text">
           <h1>Buy and Sell Easily on Campus</h1>
           <p>
-            Student Marketplace helps university students buy, sell, and explore
-            useful products in a simple and secure way.
-          </p>
+          Student Marketplace is a web-based platform designed specifically for university students to buy, sell, and exchange products within their campus community. The system provides a secure, user-friendly environment where students can easily connect with each other to trade items such as academic materials, electronics, personal belongings, and daily-use goods.
+
+          The platform simplifies the process of listing products, searching for items, and interacting with other students by offering features such as category-based filtering, real-time search, and detailed product listings. By focusing on a student-only audience, the marketplace ensures relevance, affordability, and trust among users.
+
+         </p>
 
           <div className="hero-buttons">
             <Link to="/register">
@@ -113,10 +121,40 @@ function HomePage() {
         <h2 className="section-title">Popular Categories</h2>
 
         <div className="categories-grid">
-          <div className="category-card">Academic</div>
-          <div className="category-card">Electronics</div>
-          <div className="category-card">Living & Hostel</div>
-          <div className="category-card">Personal Items</div>
+        <div className="category-card">
+      <img
+        src={academicImg}
+        alt="Academic"
+        className="category-image"
+      />
+      <h3 className="category-title">Academic</h3>
+    </div>
+
+    <div className="category-card">
+      <img
+        src={electronicImg}
+        alt="Electronics"
+        className="category-image"
+      />
+      <h3 className="category-title">Electronics</h3>
+    </div>
+
+    <div className="category-card">
+      <img
+        src={hostelImg}
+        alt="Living and Hostel"
+        className="category-image"
+      />
+      <h3 className="category-title">Living & Hostel</h3>
+    </div>
+    <div className="category-card">
+      <img
+        src={personalImg}
+        alt="Personal Items"
+        className="category-image"
+      />
+      <h3 className="category-title">Personal Items</h3>
+    </div>
         </div>
       </section>
 
