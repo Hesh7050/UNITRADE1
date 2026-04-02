@@ -25,9 +25,10 @@ function CreateProductPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
 
-    if (!user) {
+    if (!user || !token) {
       alert("Please login first");
       return;
     }
@@ -38,12 +39,15 @@ function CreateProductPage() {
     data.append("price", formData.price);
     data.append("category", formData.category);
     data.append("condition", formData.condition);
-    data.append("location", formData.location);
-    data.append("seller", user._id);
+    data.append("location", formData.location);   
     data.append("image", formData.image);
 
     try {
-      const res = await axios.post("http://localhost:5001/api/products", data);
+      const res = await axios.post("http://localhost:5001/api/products", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
       alert(res.data.message);
     } catch (error) {
       alert(error.response?.data?.message || "Product creation failed");
@@ -52,7 +56,14 @@ function CreateProductPage() {
 
   return (
     <div className="create-product-page">
-      <Navbar />
+      <Navbar
+        links={[
+          { label: "Dashboard", path: "/dashboard" },
+          { label: "Home", path: "/" },
+          { label: "Profile", path: "/profile" },
+          { label: "Logout", type: "logout" },
+        ]}
+      />
 
       <div className="create-product-container">
         <h2 className="create-product-title">Create Product</h2>

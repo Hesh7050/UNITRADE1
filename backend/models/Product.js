@@ -5,6 +5,8 @@ const productSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      trim: true,
+
     },
     description: {
       type: String,
@@ -17,10 +19,13 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      enum: ["Academic", "Electronics", "Living & Hostel", "Personal Items"],
+
     },
     condition: {
       type: String,
       required: true,
+
     },
     location: {
       type: String,
@@ -38,6 +43,7 @@ const productSchema = new mongoose.Schema(
     seller: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
   },
   { timestamps: true }

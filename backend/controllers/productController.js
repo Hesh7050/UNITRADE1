@@ -2,8 +2,7 @@ const Product = require("../models/Product");
 
 const createProduct = async (req, res) => {
   try {
-    const { title, description, price, category, condition, location, seller } =
-      req.body;
+    const { title, description, price, category, condition, location } = req.body;
 
     const product = await Product.create({
       title,
@@ -12,7 +11,7 @@ const createProduct = async (req, res) => {
       category,
       condition,
       location,
-      seller,
+      seller: req.user._id,
       image: req.file ? req.file.filename : "",
     });
 
@@ -51,4 +50,18 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
-module.exports = { createProduct, getAllProducts, getSingleProduct };
+const getMyProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ seller: req.user._id });
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = {
+  createProduct,
+  getAllProducts,
+  getSingleProduct,
+  getMyProducts,
+};
