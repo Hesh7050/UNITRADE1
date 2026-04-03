@@ -12,6 +12,8 @@ function Navbar({ links = [] }) {
     justifyContent: "space-between",
     alignItems: "center",
     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+    flexWrap: "wrap",
+    gap: "12px",
   };
 
   const logoStyle = {
@@ -26,6 +28,7 @@ function Navbar({ links = [] }) {
     display: "flex",
     gap: "12px",
     alignItems: "center",
+    flexWrap: "wrap",
   };
 
   const getLinkStyle = (path) => ({
@@ -50,18 +53,20 @@ function Navbar({ links = [] }) {
     color: "white",
     border: "1px solid rgba(255,255,255,0.35)",
     cursor: "pointer",
+    transition: "all 0.3s ease",
   };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("userInfo");
     navigate("/login");
   };
 
   return (
     <nav style={navStyle}>
       <Link to="/" style={logoStyle}>
-        Student Marketplace
+        UNITRADE
       </Link>
 
       <div style={linksContainer}>

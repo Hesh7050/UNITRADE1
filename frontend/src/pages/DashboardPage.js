@@ -10,6 +10,7 @@ function DashboardPage() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("userInfo");
     alert("Logged out successfully");
     navigate("/login");
   };
@@ -20,10 +21,12 @@ function DashboardPage() {
         links={[
           { label: "Dashboard", path: "/dashboard" },
           { label: "Home", path: "/" },
+          { label: "My Products", path: "/my-products" },
           { label: "Profile", path: "/profile" },
           { label: "Add Product", path: "/create-product" },
           { label: "Logout", type: "logout" },
-        ]} />
+        ]}
+      />
 
       <div className="dashboard-container">
         <h1 className="dashboard-title">Welcome to Student Marketplace</h1>
@@ -46,6 +49,14 @@ function DashboardPage() {
             <p>Add your own product and start selling to other students.</p>
             <Link to="/create-product" className="dashboard-link-btn">
               Add Product
+            </Link>
+          </div>
+
+          <div className="dashboard-card">
+            <h3>My Products</h3>
+            <p>View, edit, delete, and mark your posted products as sold.</p>
+            <Link to="/my-products" className="dashboard-link-btn">
+              Manage Products
             </Link>
           </div>
 

@@ -7,6 +7,8 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import DashboardPage from "./pages/DashboardPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import MyProductsPage from './pages/MyProductsPage';
+import EditProductPage from './pages/EditProductPage';
 
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/my-products" element={<MyProductsPage />} />
+        <Route path="/edit-product/:id" element={<EditProductPage />} />
         <Route
           path="/create-product"
           element={
