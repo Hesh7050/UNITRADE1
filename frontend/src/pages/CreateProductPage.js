@@ -39,16 +39,30 @@ function CreateProductPage() {
     data.append("price", formData.price);
     data.append("category", formData.category);
     data.append("condition", formData.condition);
-    data.append("location", formData.location);   
-    data.append("image", formData.image);
+    data.append("location", formData.location);
+
+    if (formData.image) {
+      data.append("image", formData.image);
+    }
 
     try {
       const res = await axios.post("http://localhost:5001/api/products", data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       alert(res.data.message);
+
+      setFormData({
+        title: "",
+        description: "",
+        price: "",
+        category: "",
+        condition: "",
+        location: "",
+        image: null,
+      });
     } catch (error) {
       alert(error.response?.data?.message || "Product creation failed");
     }
@@ -60,6 +74,7 @@ function CreateProductPage() {
         links={[
           { label: "Dashboard", path: "/dashboard" },
           { label: "Home", path: "/" },
+          { label: "My Products", path: "/my-products" },
           { label: "Profile", path: "/profile" },
           { label: "Logout", type: "logout" },
         ]}
@@ -74,14 +89,18 @@ function CreateProductPage() {
             type="text"
             name="title"
             placeholder="Title"
+            value={formData.title}
             onChange={handleChange}
+            required
           />
 
           <textarea
             className="create-product-textarea"
             name="description"
             placeholder="Description"
+            value={formData.description}
             onChange={handleChange}
+            required
           ></textarea>
 
           <input
@@ -89,31 +108,47 @@ function CreateProductPage() {
             type="number"
             name="price"
             placeholder="Price"
+            value={formData.price}
             onChange={handleChange}
+            required
           />
 
-          <input
+          <select
             className="create-product-input"
-            type="text"
             name="category"
-            placeholder="Category"
+            value={formData.category}
             onChange={handleChange}
-          />
+            required
+          >
+            <option value="">Select Category</option>
+            <option value="Academic">Academic</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Living & Hostel">Living & Hostel</option>
+            <option value="Personal Items">Personal Items</option>
+          </select>
 
-          <input
+          <select
             className="create-product-input"
-            type="text"
             name="condition"
-            placeholder="Condition"
+            value={formData.condition}
             onChange={handleChange}
-          />
+            required
+          >
+            <option value="">Select Condition</option>
+            <option value="New">New</option>
+            <option value="Like New">Like New</option>
+            <option value="Used">Used</option>
+            <option value="Fair">Fair</option>
+          </select>
 
           <input
             className="create-product-input"
             type="text"
             name="location"
             placeholder="Location"
+            value={formData.location}
             onChange={handleChange}
+            required
           />
 
           <input
