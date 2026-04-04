@@ -9,6 +9,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MyProductsPage from './pages/MyProductsPage';
 import EditProductPage from './pages/EditProductPage';
+import CategoryProductsPage from "./pages/CategoryProductsPage";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/my-products" element={<MyProductsPage />} />
         <Route path="/edit-product/:id" element={<EditProductPage />} />
+        <Route path="/category/:categoryName" element={<CategoryProductsPage />} />
         <Route
           path="/create-product"
           element={

@@ -6,6 +6,18 @@ const getToken = () => {
   return localStorage.getItem("token");
 };
 
+export const getAllProducts = async () => {
+  const response = await axios.get(API_URL);
+  return response.data;
+};
+
+export const getProductsByCategory = async (categoryName) => {
+  const response = await axios.get(
+    `${API_URL}/category/${encodeURIComponent(categoryName)}`
+  );
+  return response.data;
+};
+
 export const getMyProducts = async () => {
   const token = getToken();
 

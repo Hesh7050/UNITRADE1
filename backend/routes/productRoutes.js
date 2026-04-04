@@ -11,10 +11,12 @@ const {
   updateProduct,
   deleteProduct,
   markProductAsSold,
+  getProductsByCategory,
 } = require("../controllers/productController");
 
 // Public routes
 router.get("/", getAllProducts);
+router.get("/category/:categoryName", getProductsByCategory);
 
 // Protected routes
 router.get("/my-products", protect, getMyProducts);

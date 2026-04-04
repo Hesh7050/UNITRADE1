@@ -146,6 +146,20 @@ const markProductAsSold = async (req, res) => {
   }
 };
 
+const getProductsByCategory = async (req, res) => {
+  try {
+    const categoryName = req.params.categoryName;
+
+    const products = await Product.find({ category: categoryName })
+      .populate("seller", "name email")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createProduct,
   getAllProducts,
@@ -154,4 +168,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   markProductAsSold,
+  getProductsByCategory,
 };
