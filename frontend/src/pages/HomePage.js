@@ -59,15 +59,13 @@ function HomePage() {
             for university students to buy, sell, and exchange products within
             their campus community. The system provides a secure, user-friendly
             environment where students can easily connect with each other to
-            trade items such as academic materials, electronics, personal
-            belongings, and daily-use goods.
+            trade items,
             <br />
             <br />
             The platform simplifies the process of listing products, searching
             for items, and interacting with other students by offering features
             such as category-based filtering, real-time search, and detailed
-            product listings. By focusing on a student-only audience, the
-            marketplace ensures relevance, affordability, and trust among users.
+            product listings. 
           </p>
 
           <div className="hero-buttons">
@@ -103,26 +101,53 @@ function HomePage() {
 
     {/* features-section */}
 
-      <section className="features-section">
-        <h2 className="section-title">Why Choose Our Platform?</h2>
+    <section className="features-section">
+  <h2 className="section-title">Why Choose Our Platform?</h2>
 
-        <div className="features-grid">
-          <div className="feature-card">
-            <h3>Buy Products</h3>
-            <p>Find affordable products from fellow students quickly and easily.</p>
-          </div>
+  <div className="features-grid">
+    <div className="feature-card">
+      <h3>Buy Products</h3>
+      <p>
+        Find affordable products from fellow students quickly and easily.
+      </p>
+    </div>
 
-          <div className="feature-card">
-            <h3>Sell Products</h3>
-            <p>Post your unused items and reach other students on campus.</p>
-          </div>
+    <div className="feature-card">
+      <h3>Sell Products</h3>
+      <p>
+        Post your unused items and reach other students on campus.
+      </p>
+    </div>
 
-          <div className="feature-card">
-            <h3>Trusted Community</h3>
-            <p>Use a student-focused platform designed for a safer marketplace.</p>
-          </div>
-        </div>
-      </section>
+    <div className="feature-card">
+      <h3>Trusted Community</h3>
+      <p>
+        Use a student-focused platform designed for a safer marketplace.
+      </p>
+    </div>
+
+    <div className="feature-card">
+      <h3>Category-Based Search</h3>
+      <p>
+        Easily browse products by categories like Academic, Electronics, and Personal Items.
+      </p>
+    </div>
+
+    <div className="feature-card">
+      <h3>Manage Your Listings</h3>
+      <p>
+        Edit, delete, or mark your products as sold anytime from your dashboard.
+      </p>
+    </div>
+
+    <div className="feature-card">
+      <h3>Secure Login System</h3>
+      <p>
+        Your account is protected with authentication, ensuring only verified users can post and manage products.
+      </p>
+    </div>
+  </div>
+ </section>
 
            {/* categories-section */}
       

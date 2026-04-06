@@ -1,21 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { getMyProducts, deleteProduct, markProductAsSold } from '../services/productService';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import {
+  getMyProducts,
+  deleteProduct,
+  markProductAsSold,
+} from "../services/productService";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import "./MyProductsPage.css";
 
 const MyProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
       const data = await getMyProducts();
       setProducts(data);
-      setError('');
+      setError("");
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load your products');
+      setError(err.response?.data?.message || "Failed to load your products");
     } finally {
       setLoading(false);
     }
@@ -26,125 +32,131 @@ const MyProductsPage = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this product?');
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
     if (!confirmDelete) return;
 
     try {
       await deleteProduct(id);
-      setMessage('Product deleted successfully');
+      setMessage("Product deleted successfully");
       fetchProducts();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to delete product');
+      setError(err.response?.data?.message || "Failed to delete product");
     }
   };
 
   const handleMarkSold = async (id) => {
     try {
       await markProductAsSold(id);
-      setMessage('Product marked as sold');
+      setMessage("Product marked as sold");
       fetchProducts();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update product status');
+      setError(err.response?.data?.message || "Failed to update product status");
     }
   };
 
   if (loading) {
-    return <div className="p-6 text-lg">Loading your products...</div>;
+    return <div className="my-products-loading">Loading your products...</div>;
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 px-6 py-8">
-      <h1 className="text-3xl font-bold text-indigo-900 mb-6">My Products</h1>
+    <div className="my-products-page">
+      <Navbar
+        links={[
+          { label: "Dashboard", path: "/dashboard" },
+          { label: "Home", path: "/" },
+          { label: "Create Product", path: "/create-product" },
+          { label: "Profile", path: "/profile" },
+          { label: "Logout", type: "logout" },
+        ]}
+      />
 
-      {message && (
-        <div className="mb-4 rounded-lg bg-green-100 text-green-700 px-4 py-3">
-          {message}
-        </div>
-      )}
+      <div className="my-products-container">
+        <h1 className="my-products-title">My Products</h1>
 
-      {error && (
-        <div className="mb-4 rounded-lg bg-red-100 text-red-700 px-4 py-3">
-          {error}
-        </div>
-      )}
+        {message && <div className="my-products-message success">{message}</div>}
+        {error && <div className="my-products-message error">{error}</div>}
 
-      {products.length === 0 ? (
-        <div className="bg-white p-6 rounded-xl shadow text-gray-600">
-          You have not posted any products yet.
-        </div>
-      ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => {
-            const imageUrl = product.image
-              ? `http://localhost:5001/${product.image}`
-              : 'https://via.placeholder.com/400x300?text=No+Image';
+        {products.length === 0 ? (
+          <div className="my-products-empty">
+            <p>You have not posted any products yet.</p>
+            <Link to="/create-product" className="my-products-empty-btn">
+              Add Your First Product
+            </Link>
+          </div>
+        ) : (
+          <div className="my-products-grid">
+            {products.map((product) => {
+              const imageUrl = product.image
+                ? `http://localhost:5001/uploads/${product.image}`
+                : "https://via.placeholder.com/400x300?text=No+Image";
 
-            return (
-              <div key={product._id} className="bg-white rounded-2xl shadow-md overflow-hidden">
-                <img
-                  src={imageUrl}
-                  alt={product.title}
-                  className="w-full h-52 object-cover"
-                />
+              return (
+                <div key={product._id} className="my-product-card">
+                  <img
+                    src={imageUrl}
+                    alt={product.title}
+                    className="my-product-image"
+                  />
 
-                <div className="p-4">
-                  <div className="flex justify-between items-start gap-3">
-                    <h2 className="text-xl font-semibold text-slate-800">{product.title}</h2>
+                  <div className="my-product-content">
+                    <div className="my-product-header">
+                      <h2 className="my-product-name">{product.title}</h2>
 
-                    <span
-                      className={`text-xs px-3 py-1 rounded-full font-medium ${
-                        product.status === 'sold'
-                          ? 'bg-red-100 text-red-600'
-                          : 'bg-green-100 text-green-600'
-                      }`}
-                    >
-                      {product.status}
-                    </span>
-                  </div>
-
-                  <p className="text-gray-600 mt-2 line-clamp-2">{product.description}</p>
-                  <p className="text-indigo-700 font-bold mt-3">Rs. {product.price}</p>
-                  <p className="text-sm text-gray-500 mt-1">Category: {product.category}</p>
-                  <p className="text-sm text-gray-500">Condition: {product.condition}</p>
-                  <p className="text-sm text-gray-500">Location: {product.location}</p>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <Link
-                      to={`/products/${product._id}`}
-                      className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-                    >
-                      View
-                    </Link>
-
-                    <Link
-                      to={`/edit-product/${product._id}`}
-                      className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
-                    >
-                      Edit
-                    </Link>
-
-                    <button
-                      onClick={() => handleDelete(product._id)}
-                      className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
-
-                    {product.status !== 'sold' && (
-                      <button
-                        onClick={() => handleMarkSold(product._id)}
-                        className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900"
+                      <span
+                        className={`my-product-status ${
+                          product.status === "sold" ? "sold" : "available"
+                        }`}
                       >
-                        Mark as Sold
+                        {product.status}
+                      </span>
+                    </div>
+
+                    <p className="my-product-description">{product.description}</p>
+                    <p className="my-product-price">Rs. {product.price}</p>
+                    <p className="my-product-meta">Category: {product.category}</p>
+                    <p className="my-product-meta">Condition: {product.condition}</p>
+                    <p className="my-product-meta">Location: {product.location}</p>
+
+                    <div className="my-product-actions">
+                      <Link
+                        to={`/products/${product._id}`}
+                        className="my-product-btn view-btn"
+                      >
+                        View
+                      </Link>
+
+                      <Link
+                        to={`/edit-product/${product._id}`}
+                        className="my-product-btn edit-btn"
+                      >
+                        Edit
+                      </Link>
+
+                      <button
+                        onClick={() => handleDelete(product._id)}
+                        className="my-product-btn delete-btn"
+                      >
+                        Delete
                       </button>
-                    )}
+
+                      {product.status !== "sold" && (
+                        <button
+                          onClick={() => handleMarkSold(product._id)}
+                          className="my-product-btn sold-btn"
+                        >
+                          Mark as Sold
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
