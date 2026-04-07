@@ -207,6 +207,35 @@ function HomePage() {
         </div>
       </section>
 
+      <section className="homepage-stats-section">
+  <div className="homepage-stats-container">
+    <div className="homepage-stats-header">
+      <h2>Campus Marketplace Overview</h2>
+      <p>See the latest activity and availability on our platform</p>
+    </div>
+
+    <div className="homepage-stats-grid">
+      <div className="homepage-stat-card">
+        <div className="homepage-stat-icon">👨‍🎓</div>
+        <h3>2,500+</h3>
+        <span>Students Using This Site</span>
+      </div>
+
+      <div className="homepage-stat-card">
+        <div className="homepage-stat-icon">📦</div>
+        <h3>1,200+</h3>
+        <span>Items Available</span>
+      </div>
+
+      <div className="homepage-stat-card">
+        <div className="homepage-stat-icon">🗂️</div>
+        <h3>25+</h3>
+           <span>Categories Available</span>
+          </div>
+        </div>
+     </div>
+   </section>
+
          {/* products-section */}
 
       <section className="products-section">
