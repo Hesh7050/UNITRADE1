@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Product = require("../models/Product");
+
 
 const registerUser = async (req, res) => {
   try {
@@ -27,6 +29,25 @@ const registerUser = async (req, res) => {
         email: user.email,
         role: user.role,
       },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const getSellerProfile = async (req, res) => {
+  try {
+    const seller = await User.findById(req.params.id).select("-password");
+
+    if (!seller) {
+      return res.status(404).json({ message: "Seller not found" });
+    }
+
+    const sellerProducts = await Product.find({ seller: seller._id });
+
+    res.status(200).json({
+      seller,
+      products: sellerProducts,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -76,4 +97,4 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, getUserProfile };
+module.exports = { registerUser, loginUser, getUserProfile, getSellerProfile };

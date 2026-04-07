@@ -10,7 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import MyProductsPage from './pages/MyProductsPage';
 import EditProductPage from './pages/EditProductPage';
 import CategoryProductsPage from "./pages/CategoryProductsPage";
-
+import SellerProfilePage from "./pages/SellerProfilePage";
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
         <Route path="/my-products" element={<MyProductsPage />} />
         <Route path="/edit-product/:id" element={<EditProductPage />} />
         <Route path="/category/:categoryName" element={<CategoryProductsPage />} />
+       
         <Route
           path="/create-product"
           element={
@@ -46,6 +47,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/seller/:id"
+          element={
+           <ProtectedRoute>
+              <SellerProfilePage />
+           </ProtectedRoute>
+           }
+        />
+        
         <Route
           path="/profile"
           element={

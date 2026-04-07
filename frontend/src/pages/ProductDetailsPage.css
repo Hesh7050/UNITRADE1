@@ -60,3 +60,129 @@
     color: #444;
     line-height: 1.7;
   }
+  .product-details-page {
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f7f5fb, #efe9f7);
+  }
+  
+  .product-details-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  
+  .product-details-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+  
+  .product-details-image {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 16px;
+  }
+  
+  .product-details-content h1 {
+    color: #3d0066;
+    margin-bottom: 14px;
+  }
+  
+  .product-details-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #4f46e5;
+    margin-bottom: 14px;
+  }
+  
+  .seller-info {
+    margin-top: 20px;
+    padding: 16px;
+    background: #f8f5ff;
+    border-radius: 12px;
+  }
+  
+  .product-details-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  
+  .product-cart-btn,
+  .product-buy-btn,
+  .product-seller-btn,
+  .product-back-btn {
+    min-width: 150px;
+    height: 42px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .product-cart-btn {
+    background: #f59e0b;
+  }
+  
+  .product-buy-btn {
+    background: #10b981;
+  }
+  
+  .product-seller-btn {
+    background: #4f46e5;
+  }
+  
+  .product-back-btn {
+    background: #6b7280;
+  }
+  
+  .product-cart-btn:hover,
+  .product-buy-btn:hover,
+  .product-seller-btn:hover,
+  .product-back-btn:hover {
+    opacity: 0.95;
+    transform: translateY(-2px);
+  }
+  
+  .product-alert {
+    margin-bottom: 16px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  
+  .product-alert.success {
+    background-color: #e7f8ec;
+    color: #1e7a3d;
+  }
+  
+  .product-alert.error {
+    background-color: #fde8e8;
+    color: #b42318;
+  }
+  
+  .product-details-loading {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  @media (max-width: 900px) {
+    .product-details-card {
+      grid-template-columns: 1fr;
+    }
+  
+    .product-details-image {
+      height: 320px;
+    }
+  }
