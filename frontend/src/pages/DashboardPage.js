@@ -33,6 +33,7 @@ function DashboardPage() {
         links={[
           { label: "Dashboard", path: "/dashboard" },
           { label: "Home", path: "/" },
+          { label: "Cart", path: "/cart" },
           { label: "Profile", path: "/profile" },
           { label: "Add Product", path: "/create-product" },
           { label: "Logout", type: "logout" },

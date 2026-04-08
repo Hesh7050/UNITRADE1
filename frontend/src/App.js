@@ -11,6 +11,7 @@ import MyProductsPage from './pages/MyProductsPage';
 import EditProductPage from './pages/EditProductPage';
 import CategoryProductsPage from "./pages/CategoryProductsPage";
 import SellerProfilePage from "./pages/SellerProfilePage";
+import CartPage from "./pages/CartPage";
 
 function App() {
   return (
@@ -31,6 +32,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+          <Route
+            path="/cart"
+           element={
+      <ProtectedRoute>
+        <CartPage />
+      </ProtectedRoute>
+         }
+         />
         <Route
           path="/product/:id"
           element={

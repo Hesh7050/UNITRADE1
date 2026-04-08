@@ -32,10 +32,11 @@ function ProductDetailsPage() {
   const handleAddToCart = async () => {
     try {
       const res = await addToCart(product._id);
+      navigate("/cart"); 
       setMessage(res.message);
       setError("");
     } catch (error) {
-      setError(error.response?.data?.message || "Failed to add to cart");
+      alert(error.response?.data?.message || "Failed to add to cart");
       setMessage("");
     }
   };
@@ -102,8 +103,11 @@ function ProductDetailsPage() {
             <div className="product-details-actions">
               {!isOwner && product.status !== "sold" && (
                 <>
-                  <button className="product-cart-btn" onClick={handleAddToCart}>
-                    Add to Cart
+                  <button
+                className="product-cart-btn"
+                onClick={handleAddToCart}
+                  >
+                     Add to Cart
                   </button>
 
                   <button className="product-buy-btn" onClick={handleBuyNow}>
