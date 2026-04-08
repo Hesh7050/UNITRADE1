@@ -1,6 +1,7 @@
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 
+// Add to cart
 const addToCart = async (req, res) => {
   try {
     const { productId } = req.body;
@@ -11,16 +12,22 @@ const addToCart = async (req, res) => {
     }
 
     if (product.status === "sold") {
-      return res.status(400).json({ message: "This product is already sold" });
+      return res.status(400).json({ message: "Product already sold" });
     }
 
-    const alreadyInCart = await Cart.findOne({
+    if (product.seller.toString() === req.user._id.toString()) {
+      return res
+        .status(400)
+        .json({ message: "You cannot add your own product to cart" });
+    }
+
+    const alreadyExists = await Cart.findOne({
       user: req.user._id,
       product: productId,
     });
 
-    if (alreadyInCart) {
-      return res.status(400).json({ message: "Product already added to cart" });
+    if (alreadyExists) {
+      return res.status(400).json({ message: "Already in cart" });
     }
 
     const cartItem = await Cart.create({
@@ -29,7 +36,7 @@ const addToCart = async (req, res) => {
     });
 
     res.status(201).json({
-      message: "Product added to cart successfully",
+      message: "Added to cart",
       cartItem,
     });
   } catch (error) {
@@ -37,10 +44,32 @@ const addToCart = async (req, res) => {
   }
 };
 
+// Get my cart
 const getMyCart = async (req, res) => {
   try {
-    const cartItems = await Cart.find({ user: req.user._id }).populate("product");
-    res.status(200).json(cartItems);
+    const items = await Cart.find({ user: req.user._id }).populate("product");
+    res.json(items);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Remove from cart
+const removeFromCart = async (req, res) => {
+  try {
+    const cartItem = await Cart.findById(req.params.id);
+
+    if (!cartItem) {
+      return res.status(404).json({ message: "Cart item not found" });
+    }
+
+    if (cartItem.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    await cartItem.deleteOne();
+
+    res.status(200).json({ message: "Item removed from cart" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -49,4 +78,5 @@ const getMyCart = async (req, res) => {
 module.exports = {
   addToCart,
   getMyCart,
+  removeFromCart,
 };

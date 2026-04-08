@@ -19,3 +19,27 @@ export const addToCart = async (productId) => {
 
   return response.data;
 };
+
+export const getMyCart = async () => {
+  const token = getToken();
+
+  const response = await axios.get(API_URL, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
+
+export const removeFromCart = async (cartItemId) => {
+  const token = getToken();
+
+  const response = await axios.delete(`${API_URL}/${cartItemId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
