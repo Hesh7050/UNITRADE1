@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
@@ -6,9 +6,15 @@ import "./DashboardPage.css";
 
 function DashboardPage() {
   const user = JSON.parse(localStorage.getItem("user"));
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // ✅ FILTER STATES (NO CONDITION FILTER)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [sellerFilter, setSellerFilter] = useState("All");
 
   const fetchProducts = async () => {
     try {
@@ -26,6 +32,36 @@ function DashboardPage() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  // ✅ GET UNIQUE SELLERS
+  const uniqueSellers = useMemo(() => {
+    const sellers = products
+      .map((p) => (typeof p.seller === "object" ? p.seller?.name : null))
+      .filter(Boolean);
+
+    return ["All", ...new Set(sellers)];
+  }, [products]);
+
+  // ✅ FILTER LOGIC (NO CONDITION)
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      const sellerName =
+        typeof product.seller === "object" ? product.seller?.name || "" : "";
+
+      const matchesSearch =
+        product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        sellerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesCategory =
+        categoryFilter === "All" || product.category === categoryFilter;
+
+      const matchesSeller =
+        sellerFilter === "All" || sellerName === sellerFilter;
+
+      return matchesSearch && matchesCategory && matchesSeller;
+    });
+  }, [products, searchTerm, categoryFilter, sellerFilter]);
 
   return (
     <div className="dashboard-page">
@@ -60,13 +96,48 @@ function DashboardPage() {
 
           {error && <div className="dashboard-alert error">{error}</div>}
 
+          {/* ✅ FILTER UI */}
+          <div className="dashboard-filters">
+            <input
+              type="text"
+              placeholder="Search product, seller, category..."
+              className="dashboard-search-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+
+            <select
+              className="dashboard-filter-select"
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+            >
+              <option value="All">All Categories</option>
+              <option value="Academic">Academic</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Living & Hostel">Living & Hostel</option>
+              <option value="Personal Items">Personal Items</option>
+            </select>
+
+            <select
+              className="dashboard-filter-select"
+              value={sellerFilter}
+              onChange={(e) => setSellerFilter(e.target.value)}
+            >
+              {uniqueSellers.map((seller, index) => (
+                <option key={index} value={seller}>
+                  {seller === "All" ? "All Sellers" : seller}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {loading ? (
             <p className="dashboard-no-products">Loading products...</p>
-          ) : products.length === 0 ? (
+          ) : filteredProducts.length === 0 ? (
             <p className="dashboard-no-products">No products found.</p>
           ) : (
             <div className="dashboard-products-grid">
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <div key={product._id} className="dashboard-product-card">
                   {product.image && (
                     <img
@@ -78,7 +149,9 @@ function DashboardPage() {
 
                   <div className="dashboard-product-content">
                     <div className="dashboard-product-header">
-                      <h3 className="dashboard-product-name">{product.title}</h3>
+                      <h3 className="dashboard-product-name">
+                        {product.title}
+                      </h3>
                       <span
                         className={`dashboard-product-status ${
                           product.status === "sold" ? "sold" : "available"
@@ -88,22 +161,31 @@ function DashboardPage() {
                       </span>
                     </div>
 
-                    <p className="dashboard-product-price">Rs. {product.price}</p>
+                    <p className="dashboard-product-price">
+                      Rs. {product.price}
+                    </p>
+
                     <p className="dashboard-product-text">
                       <strong>Category:</strong> {product.category}
                     </p>
+
                     <p className="dashboard-product-text">
                       <strong>Condition:</strong> {product.condition}
                     </p>
+
                     <p className="dashboard-product-text">
                       <strong>Location:</strong> {product.location}
                     </p>
 
+                    <p className="dashboard-product-text">
+                      <strong>Seller:</strong>{" "}
+                      {typeof product.seller === "object"
+                        ? product.seller?.name
+                        : "Unknown"}
+                    </p>
+
                     <div className="dashboard-product-actions">
-                      <Link
-                        to={`/product/${product._id}`}
-                        className="dashboard-details-link"
-                      >
+                      <Link to={`/product/${product._id}`}>
                         <button className="dashboard-details-button">
                           View Details
                         </button>
