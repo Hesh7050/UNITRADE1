@@ -5,6 +5,9 @@ function Navbar({ links = [] }) {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const token = localStorage.getItem("token");
+  const isLoggedIn = !!token;
+
   const navStyle = {
     background: "linear-gradient(90deg, #3D0066, #5B2C6F)",
     padding: "16px 32px",
@@ -60,8 +63,15 @@ function Navbar({ links = [] }) {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("userInfo");
-    navigate("/login");
+    navigate("/");
   };
+
+  const filteredLinks = links.filter((link) => {
+    if (isLoggedIn && (link.path === "/login" || link.path === "/register")) {
+      return false;
+    }
+    return true;
+  });
 
   return (
     <nav style={navStyle}>
@@ -70,7 +80,7 @@ function Navbar({ links = [] }) {
       </Link>
 
       <div style={linksContainer}>
-        {links.map((link, index) =>
+        {filteredLinks.map((link, index) =>
           link.type === "logout" ? (
             <button key={index} onClick={handleLogout} style={buttonStyle}>
               {link.label}
@@ -80,6 +90,12 @@ function Navbar({ links = [] }) {
               {link.label}
             </Link>
           )
+        )}
+
+        {isLoggedIn && location.pathname === "/" && (
+          <Link to="/dashboard" style={getLinkStyle("/dashboard")}>
+             Account
+          </Link>
         )}
       </div>
     </nav>

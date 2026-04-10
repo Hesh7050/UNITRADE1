@@ -40,6 +40,9 @@ function HomePage() {
     }
   };
 
+  const token = localStorage.getItem("token");
+  const isLoggedIn = !!token;
+
   return (
     <div className="homepage">
       <Navbar
@@ -69,14 +72,22 @@ function HomePage() {
           </p>
 
           <div className="hero-buttons">
+          {!isLoggedIn ? (
+             <>
             <Link to="/register">
               <button className="hero-btn primary-btn">Get Started</button>
-            </Link>
+           </Link>
 
-            <Link to="/login">
-              <button className="hero-btn secondary-btn">Login</button>
-            </Link>
-          </div>
+           <Link to="/login">
+             <button className="hero-btn secondary-btn">Login</button>
+          </Link>
+         </>
+         ) : (
+          <Link to="/dashboard">
+           <button className="hero-btn primary-btn">Go to Dashboard</button>
+         </Link>
+         )}
+      </div>
         </div>
 
         <div className="hero-slider-wrapper">
