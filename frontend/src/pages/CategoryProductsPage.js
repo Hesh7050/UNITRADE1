@@ -55,8 +55,9 @@ function CategoryProductsPage() {
         {!loading && !error && products.length > 0 && (
           <div className="category-products-grid">
             {products.map((product) => {
-              const imageUrl = product.image
-                ? `http://localhost:5001/uploads/${product.image}`
+              const thumbnail = product.images?.[0] || product.image;
+              const imageUrl = thumbnail
+                ? `http://localhost:5001/uploads/${thumbnail}`
                 : "https://via.placeholder.com/400x300?text=No+Image";
 
               return (
@@ -97,7 +98,7 @@ function CategoryProductsPage() {
                     </p>
 
                     <Link
-                      to={`/products/${product._id}`}
+                      to={`/product/${product._id}`}
                       className="category-view-button"
                     >
                       View Details

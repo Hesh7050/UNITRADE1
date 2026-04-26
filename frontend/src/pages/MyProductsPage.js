@@ -88,8 +88,9 @@ const MyProductsPage = () => {
         ) : (
           <div className="my-products-grid">
             {products.map((product) => {
-              const imageUrl = product.image
-                ? `http://localhost:5001/uploads/${product.image}`
+              const thumbnail = product.images?.[0] || product.image;
+              const imageUrl = thumbnail
+                ? `http://localhost:5001/uploads/${thumbnail}`
                 : "https://via.placeholder.com/400x300?text=No+Image";
 
               return (
@@ -121,7 +122,7 @@ const MyProductsPage = () => {
 
                     <div className="my-product-actions">
                       <Link
-                        to={`/products/${product._id}`}
+                        to={`/product/${product._id}`}
                         className="my-product-btn view-btn"
                       >
                         View

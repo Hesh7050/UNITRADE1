@@ -256,12 +256,14 @@ function HomePage() {
           <p className="no-products">No products found</p>
         ) : (
           <div className="products-grid">
-            {products.map((product) => (
+            {products.map((product) => {
+              const thumbnail = product.images?.[0] || product.image;
+              return (
               <div key={product._id} className="product-card">
-                {product.image && (
+                {thumbnail && (
                   <img
                     className="product-image"
-                    src={`http://localhost:5001/uploads/${product.image}`}
+                    src={`http://localhost:5001/uploads/${thumbnail}`}
                     alt={product.title}
                   />
                 )}
@@ -278,7 +280,7 @@ function HomePage() {
                   <button className="details-button">View Details</button>
                 </Link>
               </div>
-            ))}
+            )})}
           </div>
         )}
       </section>

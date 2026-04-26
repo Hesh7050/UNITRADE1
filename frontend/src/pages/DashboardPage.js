@@ -11,7 +11,6 @@ function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // ✅ FILTER STATES (NO CONDITION FILTER)
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [sellerFilter, setSellerFilter] = useState("All");
@@ -33,7 +32,6 @@ function DashboardPage() {
     fetchProducts();
   }, []);
 
-  // ✅ GET UNIQUE SELLERS
   const uniqueSellers = useMemo(() => {
     const sellers = products
       .map((p) => (typeof p.seller === "object" ? p.seller?.name : null))
@@ -42,7 +40,6 @@ function DashboardPage() {
     return ["All", ...new Set(sellers)];
   }, [products]);
 
-  // ✅ FILTER LOGIC (NO CONDITION)
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const sellerName =
@@ -51,7 +48,7 @@ function DashboardPage() {
       const matchesSearch =
         product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         sellerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchTerm.toLowerCase());
+        (product.category || "").toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchesCategory =
         categoryFilter === "All" || product.category === categoryFilter;
@@ -96,7 +93,6 @@ function DashboardPage() {
 
           {error && <div className="dashboard-alert error">{error}</div>}
 
-          {/* ✅ FILTER UI */}
           <div className="dashboard-filters">
             <input
               type="text"
@@ -137,71 +133,42 @@ function DashboardPage() {
             <p className="dashboard-no-products">No products found.</p>
           ) : (
             <div className="dashboard-products-grid">
-              {filteredProducts.map((product) => (
+              {filteredProducts.map((product) => {
+                const thumbnail = product.images?.[0] || product.image;
+                return (
                 <div key={product._id} className="dashboard-product-card">
-                  {product.image && (
+
+                  {/* ✅ FIXED IMAGE */}
+                  {thumbnail && (
                     <img
                       className="dashboard-product-image"
-                      src={`http://localhost:5001/uploads/${product.image}`}
+                      src={`http://localhost:5001/uploads/${thumbnail}`}
                       alt={product.title}
                     />
                   )}
 
                   <div className="dashboard-product-content">
-                    <div className="dashboard-product-header">
-                      <h3 className="dashboard-product-name">
-                        {product.title}
-                      </h3>
-                      <span
-                        className={`dashboard-product-status ${
-                          product.status === "sold" ? "sold" : "available"
-                        }`}
-                      >
-                        {product.status || "available"}
-                      </span>
-                    </div>
+                    <h3>{product.title}</h3>
 
-                    <p className="dashboard-product-price">
-                      Rs. {product.price}
-                    </p>
+                    <p>Rs. {product.price}</p>
 
-                    <p className="dashboard-product-text">
-                      <strong>Category:</strong> {product.category}
-                    </p>
+                    <p><strong>Category:</strong> {product.category || "N/A"}</p>
+                    <p><strong>Condition:</strong> {product.condition}</p>
+                    <p><strong>Location:</strong> {product.location}</p>
 
-                    <p className="dashboard-product-text">
-                      <strong>Condition:</strong> {product.condition}
-                    </p>
-
-                    <p className="dashboard-product-text">
-                      <strong>Location:</strong> {product.location}
-                    </p>
-
-                    <p className="dashboard-product-text">
+                    <p>
                       <strong>Seller:</strong>{" "}
                       {typeof product.seller === "object"
                         ? product.seller?.name
                         : "Unknown"}
                     </p>
 
-                    <div className="dashboard-product-actions">
-                      <Link to={`/product/${product._id}`}>
-                        <button className="dashboard-details-button">
-                          View Details
-                        </button>
-                      </Link>
-
-                      <button className="dashboard-cart-button">
-                        Add to Cart
-                      </button>
-
-                      <button className="dashboard-buy-button">
-                        Buy Now
-                      </button>
-                    </div>
+                    <Link to={`/product/${product._id}`}>
+                      <button>View Details</button>
+                    </Link>
                   </div>
                 </div>
-              ))}
+              )})}
             </div>
           )}
         </section>

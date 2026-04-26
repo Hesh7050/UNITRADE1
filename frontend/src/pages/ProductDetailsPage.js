@@ -10,6 +10,8 @@ function ProductDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
+  const isLoggedIn = Boolean(token && user);
 
   const [product, setProduct] = useState(null);
   const [message, setMessage] = useState("");
@@ -57,8 +59,9 @@ function ProductDetailsPage() {
     return <div className="product-details-loading">Loading...</div>;
   }
 
-  const imageUrl = product.image
-    ? `http://localhost:5001/uploads/${product.image}`
+  const thumbnail = product.images?.[0] || product.image;
+  const imageUrl = thumbnail
+    ? `http://localhost:5001/uploads/${thumbnail}`
     : "https://via.placeholder.com/500x350?text=No+Image";
 
   const isOwner =
@@ -70,12 +73,20 @@ function ProductDetailsPage() {
   return (
     <div className="product-details-page">
       <Navbar
-        links={[
-          { label: "Dashboard", path: "/dashboard" },
-          { label: "Home", path: "/" },
-          { label: "Profile", path: "/profile" },
-          { label: "Logout", type: "logout" },
-        ]}
+        links={
+          isLoggedIn
+            ? [
+                { label: "Dashboard", path: "/dashboard" },
+                { label: "Home", path: "/" },
+                { label: "Profile", path: "/profile" },
+                { label: "Logout", type: "logout" },
+              ]
+            : [
+                { label: "Home", path: "/" },
+                { label: "Register", path: "/register" },
+                { label: "Login", path: "/login" },
+              ]
+        }
       />
 
       <div className="product-details-container">
@@ -101,7 +112,7 @@ function ProductDetailsPage() {
             </div>
 
             <div className="product-details-actions">
-              {!isOwner && product.status !== "sold" && (
+              {isLoggedIn && !isOwner && product.status !== "sold" && (
                 <>
                   <button
                 className="product-cart-btn"
@@ -114,6 +125,12 @@ function ProductDetailsPage() {
                     Buy Product
                   </button>
                 </>
+              )}
+
+              {!isLoggedIn && (
+                <Link to="/login">
+                  <button className="product-buy-btn">Login to Buy or Add to Cart</button>
+                </Link>
               )}
 
               {product.seller?._id && (

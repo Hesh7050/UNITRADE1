@@ -5,41 +5,71 @@ const productSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      trim: true,
-
     },
+
     description: {
       type: String,
       required: true,
     },
+
     price: {
       type: Number,
       required: true,
     },
+
     category: {
       type: String,
-      required: true,
       enum: ["Academic", "Electronics", "Living & Hostel", "Personal Items"],
-
+      required: true,
     },
+
     condition: {
       type: String,
+      enum: ["Brand New", "Used"],
       required: true,
-
     },
+
+    brand: {
+      type: String,
+      required: true,
+    },
+
+    negotiable: {
+      type: Boolean,
+      default: false,
+    },
+
     location: {
       type: String,
       required: true,
     },
-    image: {
+
+    ownerName: {
       type: String,
-      default: "",
+      required: true,
     },
+
+    ownerEmail: {
+      type: String,
+      required: true,
+    },
+
+    ownerPhone: {
+      type: String,
+      required: true,
+    },
+
+    images: {
+      type: [String],
+      required: true,
+    },
+
     status: {
       type: String,
       enum: ["available", "sold"],
       default: "available",
     },
+
     seller: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

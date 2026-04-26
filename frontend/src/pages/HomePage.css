@@ -166,26 +166,31 @@
 
 .category-card {
   background: #f3e8ff;
-  padding: 18px;
+  padding: 14px;
   text-align: center;
-  border-radius: 14px;
-  font-size: 18px;
-  font-weight: 700;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
   color: #3d0066;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: 0.3s ease;
+
+  height: 200px;              /* 🔥 FIX: limit card height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .category-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
 }
 
 .category-image {
   width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 14px;
+  height: 100px;              /* 🔥 FIX: smaller fixed height */
+  object-fit: contain;        /* 🔥 no zoom */
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 .category-title {
