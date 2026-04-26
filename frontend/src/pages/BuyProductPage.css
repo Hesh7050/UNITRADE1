@@ -1,0 +1,125 @@
+.buy-product-page {
+    min-height: 100vh;
+    background: #f7f0ff;
+  }
+  
+  .buy-product-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 25px;
+  }
+  
+  .buy-title {
+    text-align: center;
+    color: #4b006e;
+    margin-bottom: 30px;
+  }
+  
+  .buy-product-card {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 30px;
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  }
+  
+  .buy-product-image {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 14px;
+  }
+  
+  .buy-product-info h3 {
+    color: #3d0066;
+    font-size: 26px;
+    margin-bottom: 12px;
+  }
+  
+  .buy-description {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  
+  .quantity-label {
+    display: flex;
+    flex-direction: column;
+    margin-top: 18px;
+    font-weight: 700;
+    color: #3d0066;
+  }
+  
+  .quantity-label input {
+    margin-top: 8px;
+    width: 120px;
+    padding: 10px;
+    border: 1px solid #d6c2e8;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  
+  .order-summary {
+    margin-top: 30px;
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  }
+  
+  .order-summary h3 {
+    color: #4b006e;
+    margin-bottom: 18px;
+  }
+  
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+  }
+  
+  .summary-row.total {
+    font-size: 20px;
+    font-weight: 800;
+    color: #3d0066;
+  }
+  
+  .pay-button,
+  .back-button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  
+  .pay-button {
+    background: #5b0f7c;
+    color: white;
+  }
+  
+  .back-button {
+    background: #eee;
+    color: #3d0066;
+  }
+  
+  .pay-button:hover {
+    background: #3d0066;
+  }
+  
+  @media (max-width: 768px) {
+    .buy-product-card {
+      grid-template-columns: 1fr;
+    }
+  
+    .buy-product-image {
+      height: 260px;
+    }
+  }

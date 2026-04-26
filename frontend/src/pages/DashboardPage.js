@@ -135,40 +135,58 @@ function DashboardPage() {
             <div className="dashboard-products-grid">
               {filteredProducts.map((product) => {
                 const thumbnail = product.images?.[0] || product.image;
+
                 return (
-                <div key={product._id} className="dashboard-product-card">
+                  <div key={product._id} className="dashboard-product-card">
+                    {thumbnail && (
+                      <img
+                        className="dashboard-product-image"
+                        src={`http://localhost:5001/uploads/${thumbnail}`}
+                        alt={product.title}
+                      />
+                    )}
 
-                  {/* ✅ FIXED IMAGE */}
-                  {thumbnail && (
-                    <img
-                      className="dashboard-product-image"
-                      src={`http://localhost:5001/uploads/${thumbnail}`}
-                      alt={product.title}
-                    />
-                  )}
+                    <div className="dashboard-product-content">
+                      <h3>{product.title}</h3>
 
-                  <div className="dashboard-product-content">
-                    <h3>{product.title}</h3>
+                      <p>Rs. {product.price}</p>
 
-                    <p>Rs. {product.price}</p>
+                      <p>
+                        <strong>Category:</strong> {product.category || "N/A"}
+                      </p>
 
-                    <p><strong>Category:</strong> {product.category || "N/A"}</p>
-                    <p><strong>Condition:</strong> {product.condition}</p>
-                    <p><strong>Location:</strong> {product.location}</p>
+                      <p>
+                        <strong>Condition:</strong> {product.condition}
+                      </p>
 
-                    <p>
-                      <strong>Seller:</strong>{" "}
-                      {typeof product.seller === "object"
-                        ? product.seller?.name
-                        : "Unknown"}
-                    </p>
+                      <p>
+                        <strong>Location:</strong> {product.location}
+                      </p>
 
-                    <Link to={`/product/${product._id}`}>
-                      <button>View Details</button>
-                    </Link>
+                      <p>
+                        <strong>Seller:</strong>{" "}
+                        {typeof product.seller === "object"
+                          ? product.seller?.name
+                          : "Unknown"}
+                      </p>
+
+                      <div className="dashboard-product-actions">
+                        <Link to={`/product/${product._id}`}>
+                          <button className="dashboard-details-button">
+                            View Details
+                          </button>
+                        </Link>
+
+                        <Link to={`/buy-product/${product._id}`}>
+                          <button className="dashboard-buy-button">
+                            Buy Now
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              )})}
+                );
+              })}
             </div>
           )}
         </section>
