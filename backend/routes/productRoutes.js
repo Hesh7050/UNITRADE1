@@ -203,7 +203,7 @@ router.put("/:id/sold", protect, async (req, res) => {
     }
 
     product.status = "sold";
-    const updated = await product.save();
+    const updated = await product.save({ validateBeforeSave: false });
 
     res.status(200).json({ message: "Product marked as sold", product: updated });
   } catch (error) {

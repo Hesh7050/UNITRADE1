@@ -26,8 +26,10 @@ const buyNow = async (req, res) => {
       status: "placed",
     });
 
+    // Legacy products may miss newer required fields (ex: category).
+    // We only change status here, so skip full schema validation.
     product.status = "sold";
-    await product.save();
+    await product.save({ validateBeforeSave: false });
 
     res.status(201).json({
       message: "Product purchased successfully",
