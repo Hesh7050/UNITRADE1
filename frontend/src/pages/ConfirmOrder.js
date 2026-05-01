@@ -1,24 +1,26 @@
 import React, { useState } from "react";
-import "./ConfirmOrder.css"; // optional styling file
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import "./ConfirmOrder.css";
 
-const ConfirmOrder = ({ product }) => {
-  // Buyer details (you can later replace with auth user data)
+const ConfirmOrder = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const orderData = location.state?.orderData;
+
   const [buyer, setBuyer] = useState({
     name: "",
     address: "",
     phone: "",
   });
 
-  // Payment state
   const [paymentMethod, setPaymentMethod] = useState("");
-
   const [cardDetails, setCardDetails] = useState({
     holderName: "",
     cardNumber: "",
     expiryDate: "",
   });
 
-  // Handle input changes
   const handleBuyerChange = (e) => {
     setBuyer({ ...buyer, [e.target.name]: e.target.value });
   };
@@ -27,7 +29,6 @@ const ConfirmOrder = ({ product }) => {
     setCardDetails({ ...cardDetails, [e.target.name]: e.target.value });
   };
 
-  // Submit order
   const handleConfirmOrder = () => {
     if (!buyer.name || !buyer.address || !buyer.phone) {
       alert("Please fill buyer details");
@@ -50,22 +51,42 @@ const ConfirmOrder = ({ product }) => {
       }
     }
 
-    const orderData = {
+    const payload = {
       buyer,
-      product,
+      order: orderData,
       paymentMethod,
       cardDetails: paymentMethod === "card" ? cardDetails : null,
     };
 
-    console.log("ORDER CONFIRMED:", orderData);
+    console.log("ORDER CONFIRMED:", payload);
 
     alert("Order placed successfully!");
   };
 
-  return (
-    <div className="confirm-container">
+  if (!orderData) {
+    return (
+      <div className="confirm-container">
+        <p>No order data found. Please start from the Buy Product page.</p>
+        <button className="confirm-btn" onClick={() => navigate("/dashboard")}>
+          Back to Dashboard
+        </button>
+      </div>
+    );
+  }
 
-      {/* SECTION 1 - BUYER DETAILS */}
+  return (
+    <div>
+      <Navbar
+        links={[
+          { label: "Dashboard", path: "/dashboard" },
+          { label: "Home", path: "/" },
+          { label: "Cart", path: "/cart" },
+          { label: "Profile", path: "/profile" },
+          { label: "Logout", type: "logout" },
+        ]}
+      />
+
+      <div className="confirm-container">
       <div className="section">
         <h2>Buyer Details</h2>
 
@@ -94,17 +115,17 @@ const ConfirmOrder = ({ product }) => {
         />
       </div>
 
-      {/* SECTION 2 - PRODUCT DETAILS */}
       <div className="section">
         <h2>Product Details</h2>
 
-        <p><strong>Product Name:</strong> {product?.title}</p>
-        <p><strong>Quantity:</strong> {product?.quantity || 1}</p>
-        <p><strong>Price:</strong> Rs. {product?.price}</p>
-        <p><strong>Return Date:</strong> {product?.returnDate || "7 Days Guarantee"}</p>
+        <p><strong>Product Name:</strong> {orderData.title}</p>
+        <p><strong>Quantity:</strong> {orderData.quantity}</p>
+        <p><strong>Item Total:</strong> Rs. {orderData.itemTotal}</p>
+        <p><strong>Shipping Fee:</strong> Rs. {orderData.shippingFee}</p>
+        <p><strong>Total Payment:</strong> Rs. {orderData.total}</p>
+        <p><strong>Return Date:</strong> {orderData.returnDate}</p>
       </div>
 
-      {/* SECTION 3 - PAYMENT */}
       <div className="section">
         <h2>Payment Method</h2>
 
@@ -128,7 +149,6 @@ const ConfirmOrder = ({ product }) => {
           Card Payment
         </label>
 
-        {/* CARD FORM */}
         {paymentMethod === "card" && (
           <div className="card-box">
             <h3>Card Details</h3>
@@ -160,12 +180,15 @@ const ConfirmOrder = ({ product }) => {
         )}
       </div>
 
-      {/* SECTION 4 - CONFIRM BUTTON */}
       <div className="section">
         <button className="confirm-btn" onClick={handleConfirmOrder}>
           Confirm Order
         </button>
+        <Link to={`/buy-product/${orderData.productId}`}>
+          <button className="confirm-btn">Back</button>
+        </Link>
       </div>
+    </div>
     </div>
   );
 };

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import "./BuyProductPage.css";
 
 function BuyProductPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -39,6 +40,23 @@ function BuyProductPage() {
   const itemTotal = product.price * quantity;
   const shippingTotal = shippingFeePerItem * quantity;
   const finalTotal = itemTotal + shippingTotal;
+  const thumbnail = product.images?.[0] || product.image;
+
+  const handleProceedToPay = () => {
+    const orderData = {
+      productId: product._id,
+      title: product.title,
+      price: product.price,
+      quantity,
+      shippingFee: shippingTotal,
+      itemTotal,
+      total: finalTotal,
+      image: thumbnail || "",
+      returnDate: getGuaranteeDate(),
+    };
+
+    navigate("/confirm-order", { state: { orderData } });
+  };
 
   return (
     <div className="buy-product-page">
@@ -56,9 +74,9 @@ function BuyProductPage() {
         <h2 className="buy-title">Buy Product</h2>
 
         <div className="buy-product-card">
-          {product.images?.[0] && (
+          {thumbnail && (
             <img
-              src={`http://localhost:5001/uploads/${product.images[0]}`}
+              src={`http://localhost:5001/uploads/${thumbnail}`}
               alt={product.title}
               className="buy-product-image"
             />
@@ -125,7 +143,9 @@ function BuyProductPage() {
             <span>Rs. {finalTotal}</span>
           </div>
 
-          <button className="pay-button">Proceed to Pay</button>
+          <button className="pay-button" onClick={handleProceedToPay}>
+            Proceed to Pay
+          </button>
 
           <Link to="/dashboard">
             <button className="back-button">Back to Dashboard</button>

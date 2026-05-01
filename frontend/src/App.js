@@ -13,6 +13,7 @@ import CategoryProductsPage from "./pages/CategoryProductsPage";
 import SellerProfilePage from "./pages/SellerProfilePage";
 import CartPage from "./pages/CartPage";
 import BuyProductPage from "./pages/BuyProductPage";
+import ConfirmOrder from "./pages/ConfirmOrder";
 
 function App() {
   return (
@@ -25,6 +26,14 @@ function App() {
         <Route path="/edit-product/:id" element={<EditProductPage />} />
         <Route path="/category/:categoryName" element={<CategoryProductsPage />} />
         <Route path="/buy-product/:id" element={<BuyProductPage />} />
+        <Route
+          path="/confirm-order"
+          element={
+            <ProtectedRoute>
+              <ConfirmOrder />
+            </ProtectedRoute>
+          }
+        />
        
         <Route
           path="/create-product"
