@@ -1,0 +1,36 @@
+.confirm-container {
+    width: 60%;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .section {
+    background: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+  
+  input {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+  }
+  
+  .card-box {
+    margin-top: 15px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+  }
+  
+  .confirm-btn {
+    background: green;
+    color: white;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
