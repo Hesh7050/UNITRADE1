@@ -1,36 +1,376 @@
-.confirm-container {
-    width: 60%;
-    margin: auto;
-    padding: 20px;
-  }
-  
-  .section {
-    background: #f9f9f9;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-  }
-  
-  input {
-    display: block;
-    width: 100%;
-    margin: 8px 0;
-    padding: 10px;
-  }
-  
-  .card-box {
-    margin-top: 15px;
-    padding: 15px;
-    background: #fff;
-    border: 1px solid #ddd;
-  }
-  
-  .confirm-btn {
-    background: green;
-    color: white;
-    padding: 12px;
-    width: 100%;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-  }
+/* ============================================================
+   STUDENT MARKETPLACE — ConfirmOrder.css
+   Theme: Light Purple × White — clean, premium, professional
+   Fonts: Plus Jakarta Sans (via DashboardPage import)
+   ============================================================ */
+
+   @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap');
+
+   /* ── TOKENS ──────────────────────────────────────────────── */
+   :root {
+     --white:          #ffffff;
+     --purple-50:      #f5f3ff;
+     --purple-100:     #ede9fe;
+     --purple-200:     #ddd6fe;
+     --purple-300:     #c4b5fd;
+     --purple-400:     #a78bfa;
+     --purple-500:     #8b5cf6;
+     --purple-600:     #7c3aed;
+     --purple-700:     #6d28d9;
+     --purple-900:     #2e1065;
+     --bg-page:        #f7f5ff;
+     --text-primary:   #1e1b4b;
+     --text-secondary: #6b7280;
+     --text-muted:     #9ca3af;
+     --border:         rgba(167, 139, 250, 0.2);
+     --border-focus:   rgba(139, 92, 246, 0.45);
+     --shadow-sm:      0 4px 12px rgba(109, 40, 217, 0.08);
+     --shadow-md:      0 8px 28px rgba(109, 40, 217, 0.12);
+     --shadow-lg:      0 20px 50px rgba(109, 40, 217, 0.14);
+     --r:              12px;
+     --r-lg:           20px;
+     --r-xl:           28px;
+     --r-pill:         100px;
+     --ease:           cubic-bezier(0.4, 0, 0.2, 1);
+     --spring:         cubic-bezier(0.34, 1.56, 0.64, 1);
+     --t:              0.22s var(--ease);
+   }
+   
+   /* ── PAGE SHELL ──────────────────────────────────────────── */
+   .confirm-container {
+     font-family: 'Plus Jakarta Sans', sans-serif;
+     min-height: 100vh;
+     background: var(--bg-page);
+     background-image:
+       radial-gradient(ellipse 70% 40% at 15% 10%, rgba(196,181,253,0.25) 0%, transparent 55%),
+       radial-gradient(ellipse 55% 40% at 88% 15%, rgba(167,139,250,0.15) 0%, transparent 50%),
+       radial-gradient(ellipse 50% 50% at 70% 95%, rgba(221,214,254,0.2)  0%, transparent 55%);
+     padding: 3rem 1.5rem 5rem;
+     animation: pageIn 0.5s var(--ease) both;
+   }
+   
+   @keyframes pageIn {
+     from { opacity: 0; transform: translateY(18px); }
+     to   { opacity: 1; transform: translateY(0); }
+   }
+   
+   /* Page title (if you add one) */
+   .confirm-container > h1 {
+     font-family: 'Playfair Display', serif;
+     font-size: clamp(1.8rem, 3vw, 2.4rem);
+     font-weight: 700;
+     color: var(--text-primary);
+     letter-spacing: -0.02em;
+     text-align: center;
+     margin-bottom: 2.5rem;
+     background: linear-gradient(135deg, var(--purple-900), var(--purple-600), var(--purple-400));
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+   }
+   
+   /* ── SECTION CARDS ───────────────────────────────────────── */
+   .section {
+     background: var(--white);
+     border: 1px solid var(--border);
+     border-radius: var(--r-xl);
+     box-shadow: var(--shadow-sm);
+     padding: 2rem 2.2rem;
+     margin: 0 auto 1.5rem;
+     max-width: 620px;
+     transition: box-shadow var(--t), border-color var(--t);
+     position: relative;
+     overflow: hidden;
+   }
+   
+   /* Subtle top accent line */
+   .section::before {
+     content: '';
+     position: absolute;
+     top: 0; left: 0; right: 0;
+     height: 3px;
+     background: linear-gradient(90deg, var(--purple-300), var(--purple-500), var(--purple-300));
+     opacity: 0;
+     transition: opacity var(--t);
+   }
+   
+   .section:hover {
+     box-shadow: var(--shadow-md);
+     border-color: rgba(139, 92, 246, 0.25);
+   }
+   .section:hover::before { opacity: 1; }
+   
+   /* Section headings */
+   .section h2 {
+     font-family: 'Playfair Display', serif;
+     font-size: 1.25rem;
+     font-weight: 700;
+     color: var(--text-primary);
+     letter-spacing: -0.015em;
+     margin-bottom: 1.4rem;
+     padding-bottom: 0.75rem;
+     border-bottom: 1px solid var(--border);
+     display: flex;
+     align-items: center;
+     gap: 0.6rem;
+   }
+   
+   /* Section heading icon dots */
+   .section h2::before {
+     content: '';
+     display: inline-block;
+     width: 8px; height: 8px;
+     background: linear-gradient(135deg, var(--purple-400), var(--purple-600));
+     border-radius: 50%;
+     flex-shrink: 0;
+   }
+   
+   .section h3 {
+     font-family: 'Plus Jakarta Sans', sans-serif;
+     font-size: 0.88rem;
+     font-weight: 700;
+     color: var(--purple-600);
+     text-transform: uppercase;
+     letter-spacing: 0.07em;
+     margin-bottom: 1rem;
+   }
+   
+   /* ── PRODUCT IMAGE ───────────────────────────────────────── */
+   .section img {
+     border-radius: var(--r-lg) !important;
+     border: 1px solid var(--border);
+     box-shadow: var(--shadow-sm);
+     display: block;
+     transition: transform 0.35s var(--ease), box-shadow 0.35s;
+   }
+   .section img:hover {
+     transform: scale(1.02);
+     box-shadow: var(--shadow-md);
+   }
+   
+   /* ── PRODUCT DETAIL ROWS ─────────────────────────────────── */
+   .section p {
+     font-size: 0.9rem;
+     color: var(--text-secondary);
+     line-height: 1.6;
+     padding: 0.55rem 0;
+     border-bottom: 1px solid rgba(167,139,250,0.08);
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     gap: 0.5rem;
+   }
+   .section p:last-of-type { border-bottom: none; }
+   
+   .section p strong {
+     font-weight: 600;
+     color: var(--text-primary);
+     font-size: 0.85rem;
+     text-transform: uppercase;
+     letter-spacing: 0.03em;
+     flex-shrink: 0;
+   }
+   
+   /* Highlight the total row */
+   .section p:has(strong:last-child) {
+     /* fallback below for broader support */
+   }
+   
+   /* Total payment special styling — target by position */
+   .section p:nth-last-of-type(2) {
+     margin-top: 0.5rem;
+     padding-top: 0.75rem;
+     border-top: 1px dashed var(--purple-200);
+     font-size: 1rem;
+     font-weight: 700;
+     color: var(--purple-600);
+   }
+   
+   /* ── INPUTS ──────────────────────────────────────────────── */
+   .section input[type="text"],
+   .section input[type="email"],
+   .section input[type="number"],
+   .section input[type="tel"] {
+     width: 100%;
+     font-family: 'Plus Jakarta Sans', sans-serif;
+     font-size: 0.9rem;
+     font-weight: 400;
+     color: var(--text-primary);
+     background: var(--purple-50);
+     border: 1px solid var(--border);
+     border-radius: var(--r);
+     padding: 0.75rem 1rem;
+     margin-bottom: 0.85rem;
+     outline: none;
+     transition: border-color var(--t), box-shadow var(--t), background var(--t);
+     -webkit-appearance: none;
+   }
+   
+   .section input[type="text"]::placeholder,
+   .section input[type="tel"]::placeholder {
+     color: var(--text-muted);
+     font-weight: 300;
+   }
+   
+   .section input[type="text"]:focus,
+   .section input[type="tel"]:focus {
+     background: var(--white);
+     border-color: var(--purple-300);
+     box-shadow: 0 0 0 3px rgba(139,92,246,0.12);
+   }
+   
+   .section input[type="text"]:hover:not(:focus),
+   .section input[type="tel"]:hover:not(:focus) {
+     border-color: rgba(139,92,246,0.3);
+   }
+   
+   /* ── RADIO BUTTONS ───────────────────────────────────────── */
+   .section label {
+     display: flex;
+     align-items: center;
+     gap: 0.75rem;
+     font-size: 0.92rem;
+     font-weight: 500;
+     color: var(--text-primary);
+     padding: 0.85rem 1.1rem;
+     border: 1px solid var(--border);
+     border-radius: var(--r);
+     margin-bottom: 0.65rem;
+     cursor: pointer;
+     transition: background var(--t), border-color var(--t), box-shadow var(--t);
+     background: var(--purple-50);
+     position: relative;
+   }
+   
+   .section label:hover {
+     background: var(--purple-100);
+     border-color: rgba(139,92,246,0.3);
+   }
+   
+   /* Custom radio appearance */
+   .section label input[type="radio"] {
+     width: 18px; height: 18px;
+     accent-color: var(--purple-500);
+     cursor: pointer;
+     flex-shrink: 0;
+     margin: 0;
+   }
+   
+   /* Checked label highlight */
+   .section label:has(input[type="radio"]:checked) {
+     background: var(--purple-100);
+     border-color: var(--purple-400);
+     box-shadow: 0 0 0 3px rgba(139,92,246,0.1);
+   }
+   
+   /* ── CARD DETAILS BOX ────────────────────────────────────── */
+   .card-box {
+     background: var(--purple-50);
+     border: 1px solid var(--border);
+     border-radius: var(--r-lg);
+     padding: 1.4rem 1.5rem;
+     margin-top: 1rem;
+     animation: cardBoxIn 0.3s var(--spring) both;
+   }
+   
+   @keyframes cardBoxIn {
+     from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+     to   { opacity: 1; transform: translateY(0) scale(1); }
+   }
+   
+   .card-box input[type="text"] {
+     background: var(--white) !important;
+   }
+   
+   /* ── BUTTONS ─────────────────────────────────────────────── */
+   .section:last-child {
+     display: flex;
+     gap: 0.85rem;
+     flex-wrap: wrap;
+     background: transparent;
+     border: none;
+     box-shadow: none;
+     padding: 0;
+   }
+   .section:last-child::before { display: none; }
+   
+   .confirm-btn {
+     flex: 1;
+     min-width: 140px;
+     font-family: 'Plus Jakarta Sans', sans-serif;
+     font-size: 0.88rem;
+     font-weight: 700;
+     letter-spacing: 0.03em;
+     border-radius: var(--r-pill);
+     padding: 0.85rem 1.5rem;
+     cursor: pointer;
+     border: none;
+     transition: transform 0.2s var(--spring), box-shadow 0.2s var(--ease), background 0.2s;
+   }
+   .confirm-btn:active { transform: scale(0.97) !important; }
+   
+   /* Primary — Confirm Order */
+   .confirm-btn:first-child {
+     background: linear-gradient(135deg, var(--purple-500), var(--purple-700));
+     color: white;
+     box-shadow: 0 4px 18px rgba(139,92,246,0.35);
+   }
+   .confirm-btn:first-child:hover {
+     transform: translateY(-3px);
+     box-shadow: 0 8px 28px rgba(109,40,217,0.42);
+   }
+   
+   /* Secondary — Back */
+   .confirm-btn:last-child {
+     background: var(--white);
+     color: var(--purple-600);
+     border: 1.5px solid rgba(139,92,246,0.3);
+     box-shadow: var(--shadow-sm);
+   }
+   .confirm-btn:last-child:hover {
+     background: var(--purple-50);
+     border-color: var(--purple-400);
+     transform: translateY(-2px);
+     box-shadow: var(--shadow-md);
+   }
+   
+   /* No order data fallback */
+   .confirm-container > p {
+     text-align: center;
+     color: var(--text-secondary);
+     font-size: 0.95rem;
+     margin-bottom: 1.5rem;
+   }
+   
+   /* Single centered button fallback */
+   .confirm-container > .confirm-btn {
+     display: block;
+     margin: 0 auto;
+     max-width: 240px;
+     text-align: center;
+     background: linear-gradient(135deg, var(--purple-500), var(--purple-700));
+     color: white;
+     box-shadow: 0 4px 18px rgba(139,92,246,0.35);
+   }
+   .confirm-container > .confirm-btn:hover {
+     transform: translateY(-3px);
+     box-shadow: 0 8px 28px rgba(109,40,217,0.42);
+   }
+   
+   /* ── SCROLLBAR ───────────────────────────────────────────── */
+   ::-webkit-scrollbar { width: 6px; }
+   ::-webkit-scrollbar-track { background: var(--bg-page); }
+   ::-webkit-scrollbar-thumb { background: var(--purple-300); border-radius: 99px; }
+   ::-webkit-scrollbar-thumb:hover { background: var(--purple-400); }
+   
+   /* ── SELECTION ───────────────────────────────────────────── */
+   ::selection { background: var(--purple-200); color: var(--purple-900); }
+   
+   /* ── RESPONSIVE ──────────────────────────────────────────── */
+   @media (max-width: 640px) {
+     .confirm-container { padding: 2rem 1rem 4rem; }
+     .section { padding: 1.5rem 1.25rem; }
+     .section:last-child { flex-direction: column; }
+     .confirm-btn { min-width: 100%; }
+     .section p { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+   }

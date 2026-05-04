@@ -118,6 +118,20 @@ const ConfirmOrder = () => {
       <div className="section">
         <h2>Product Details</h2>
 
+        {orderData.image && (
+          <img
+            src={`http://localhost:5001/uploads/${orderData.image}`}
+            alt={orderData.title}
+            style={{
+              width: "180px",
+              height: "180px",
+              objectFit: "cover",
+              borderRadius: "10px",
+              marginBottom: "12px",
+            }}
+          />
+        )}
+
         <p><strong>Product Name:</strong> {orderData.title}</p>
         <p><strong>Quantity:</strong> {orderData.quantity}</p>
         <p><strong>Item Total:</strong> Rs. {orderData.itemTotal}</p>
