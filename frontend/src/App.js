@@ -14,6 +14,8 @@ import SellerProfilePage from "./pages/SellerProfilePage";
 import CartPage from "./pages/CartPage";
 import BuyProductPage from "./pages/BuyProductPage";
 import ConfirmOrder from "./pages/ConfirmOrder";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
@@ -80,6 +82,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+           path="/admin/dashboard"
+           element={
+              <AdminRoute>
+                <AdminDashboard />
+             </AdminRoute>
+          }
+        />
+       
       </Routes>
     </Router>
   );

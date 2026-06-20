@@ -6,7 +6,17 @@ function Navbar({ links = [] }) {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
+
+  let user = null;
+
+  try {
+    user = JSON.parse(localStorage.getItem("user"));
+  } catch (error) {
+    user = null;
+  }
+
   const isLoggedIn = !!token;
+  const isAdmin = user?.role === "admin";
 
   const navStyle = {
     background: "linear-gradient(90deg, #3D0066, #5B2C6F)",
@@ -59,6 +69,16 @@ function Navbar({ links = [] }) {
     transition: "all 0.3s ease",
   };
 
+  const adminLinkStyle = {
+    ...getLinkStyle("/admin/dashboard"),
+    background:
+      location.pathname === "/admin/dashboard"
+        ? "#ffffff"
+        : "linear-gradient(135deg, #D946EF, #8B5CF6)",
+    color: location.pathname === "/admin/dashboard" ? "#4B0082" : "white",
+    border: "1px solid rgba(255,255,255,0.5)",
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -70,6 +90,7 @@ function Navbar({ links = [] }) {
     if (isLoggedIn && (link.path === "/login" || link.path === "/register")) {
       return false;
     }
+
     return true;
   });
 
@@ -92,9 +113,18 @@ function Navbar({ links = [] }) {
           )
         )}
 
+        {isLoggedIn && isAdmin && (
+          <Link to="/admin/dashboard" style={adminLinkStyle}>
+            Admin
+          </Link>
+        )}
+
         {isLoggedIn && location.pathname === "/" && (
-          <Link to="/dashboard" style={getLinkStyle("/dashboard")}>
-             Account
+          <Link
+            to={isAdmin ? "/admin/dashboard" : "/dashboard"}
+            style={getLinkStyle(isAdmin ? "/admin/dashboard" : "/dashboard")}
+          >
+            Account
           </Link>
         )}
       </div>

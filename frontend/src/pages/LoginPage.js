@@ -13,17 +13,31 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const res = await axios.post("http://localhost:5001/api/users/login", formData);
+      const res = await axios.post(
+        "http://localhost:5001/api/users/login",
+        formData
+      );
+
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
+
       alert(res.data.message);
-      navigate("/dashboard");
+
+      if (res.data.user?.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error) {
       alert(error.response?.data?.message || "Login failed");
     }
@@ -31,11 +45,12 @@ function LoginPage() {
 
   return (
     <div className="login-page">
-      <Navbar 
+      <Navbar
         links={[
           { label: "Home", path: "/" },
           { label: "Register", path: "/register" },
-        ]}/>
+        ]}
+      />
 
       <div className="login-container">
         <h2 className="login-title">Login</h2>
@@ -46,7 +61,9 @@ function LoginPage() {
             type="email"
             name="email"
             placeholder="Email"
+            value={formData.email}
             onChange={handleChange}
+            required
           />
 
           <input
@@ -54,7 +71,9 @@ function LoginPage() {
             type="password"
             name="password"
             placeholder="Password"
+            value={formData.password}
             onChange={handleChange}
+            required
           />
 
           <button className="login-button" type="submit">
