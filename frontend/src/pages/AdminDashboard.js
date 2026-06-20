@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Navbar from "../components/Navbar";
 import "./AdminDashboard.css";
+
 
 const API_URL = "http://localhost:5001/api/admin";
 
